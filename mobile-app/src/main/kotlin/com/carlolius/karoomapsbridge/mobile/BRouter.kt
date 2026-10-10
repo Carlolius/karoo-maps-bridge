@@ -8,7 +8,8 @@ import kotlin.math.cos
 import kotlin.math.sqrt
 
 /**
- * Bike routing with BRouter (OpenStreetMap data, free public server, no key).
+ * Bike routing with BRouter (OpenStreetMap data, no key). Public brouter.de by default; the
+ * server can be changed in the app (self-hosted BRouter).
  * Google Maps never shares a route's geometry, so a shared directions link gives us
  * only its stops; BRouter routes through them and offers alternatives to choose from.
  *
@@ -44,12 +45,16 @@ object BRouter {
         val points: List<TrackPoint>,
     )
 
-    private const val SERVER = "https://brouter.de/brouter"
     private const val USER_AGENT = "karoo-maps-bridge/1.0 (+https://github.com/Carlolius/karoo-maps-bridge)"
 
-    fun url(points: List<MapsLinkParser.LatLng>, profile: Profile, alternative: Int): String {
+    fun url(
+        points: List<MapsLinkParser.LatLng>,
+        profile: Profile,
+        alternative: Int,
+        server: String = AppSettings.DEFAULT_BROUTER_SERVER,
+    ): String {
         val lonlats = points.joinToString("|") { String.format(Locale.ROOT, "%.6f,%.6f", it.lng, it.lat) }
-        return "$SERVER?lonlats=$lonlats&profile=${profile.id}&alternativeidx=$alternative&format=geojson"
+        return "$server?lonlats=$lonlats&profile=${profile.id}&alternativeidx=$alternative&format=geojson"
     }
 
     /** Parses BRouter's GeoJSON answer. */
@@ -177,8 +182,8 @@ object BRouter {
         overlap(a.points, b.points) >= threshold && overlap(b.points, a.points) >= threshold
 
     /** Blocking network call. Returns null when BRouter has no route for that index. */
-    fun fetch(points: List<MapsLinkParser.LatLng>, profile: Profile, alternative: Int): Route? {
-        val conn = (URL(url(points, profile, alternative)).openConnection() as HttpURLConnection).apply {
+    fun fetch(points: List<MapsLinkParser.LatLng>, profile: Profile, alternative: Int, server: String): Route? {
+        val conn = (URL(url(points, profile, alternative, server)).openConnection() as HttpURLConnection).apply {
             connectTimeout = 10_000
             readTimeout = 30_000
             setRequestProperty("User-Agent", USER_AGENT)

@@ -20,6 +20,7 @@ class MainActivity : Activity() {
 
     private lateinit var karooSystem: KarooSystemService
     private lateinit var status: TextView
+    private lateinit var update: TextView
     private lateinit var choices: LinearLayout
     private lateinit var hostInput: EditText
     private var pad = 0
@@ -30,6 +31,12 @@ class MainActivity : Activity() {
         karooSystem.connect()
 
         pad = (12 * resources.displayMetrics.density).toInt()
+        update = TextView(this).apply {
+            textSize = 15f
+            setTypeface(typeface, android.graphics.Typeface.BOLD)
+            setPadding(0, 0, 0, pad)
+            visibility = android.view.View.GONE
+        }
         status = TextView(this).apply {
             textSize = 16f
             setPadding(0, 0, 0, pad)
@@ -76,6 +83,7 @@ class MainActivity : Activity() {
                 // Take the initial focus so the IP field (and its keyboard) doesn't
                 isFocusableInTouchMode = true
                 requestFocus()
+                addView(update)
                 addView(status)
                 addView(fetch)
                 addView(choices)
@@ -88,6 +96,18 @@ class MainActivity : Activity() {
         showPhoneAddress()
         // Opened from the bonus action (several points) or by hand: either way, ask right away.
         fetchPoints(openSingle = false)
+        checkForUpdate()
+    }
+
+    /** Sideloaded: tell the rider when GitHub has a newer version (at most one check a day). */
+    private fun checkForUpdate() {
+        Thread {
+            val version = UpdateChecker.check(applicationContext) ?: return@Thread
+            runOnUiThread {
+                update.text = getString(R.string.update_available, version, UpdateChecker.currentVersion(this))
+                update.visibility = android.view.View.VISIBLE
+            }
+        }.start()
     }
 
     override fun onNewIntent(intent: Intent) {

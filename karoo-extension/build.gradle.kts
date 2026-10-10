@@ -11,8 +11,8 @@ android {
         applicationId = "com.carlolius.karoomapsbridge.karoo"
         minSdk = 26 // Karoo 2 runs Android 8.1 (API 27)
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0.0"
+        versionCode = 6
+        versionName = "1.1.0"
     }
 
     // Release signing comes from the environment (see build.sh --release); never from the repo.

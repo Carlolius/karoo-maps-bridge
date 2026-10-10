@@ -14,12 +14,17 @@ import android.text.format.DateUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.text.InputType
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 
-/** Status screen: list of points waiting for the Karoo, server on/off, and how to use it. */
+/**
+ * Status screen: update notice, list of points waiting for the Karoo, server on/off,
+ * settings (BRouter server) and how to use it.
+ */
 class MainActivity : Activity() {
 
     private lateinit var server: TextView
@@ -29,6 +34,9 @@ class MainActivity : Activity() {
     private lateinit var clearAll: Button
     private lateinit var unrecognizedBox: LinearLayout
     private lateinit var unrecognizedText: TextView
+    private lateinit var updateBox: LinearLayout
+    private lateinit var updateText: TextView
+    private lateinit var brouterInput: EditText
     private var pad = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,17 +97,61 @@ class MainActivity : Activity() {
             text = getString(R.string.help)
             setPadding(0, pad, 0, 0)
         }
+        updateText = TextView(this).apply {
+            textSize = 16f
+            setTypeface(typeface, Typeface.BOLD)
+        }
+        updateBox = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(pad / 2, pad / 2, pad / 2, pad / 2)
+            setBackgroundColor(0x22E8541E)
+            visibility = View.GONE
+            addView(updateText)
+            addView(Button(this@MainActivity).apply {
+                text = getString(R.string.update_download)
+                setOnClickListener { startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(UpdateChecker.RELEASES_URL))) }
+            })
+        }
+        brouterInput = EditText(this).apply {
+            hint = AppSettings.DEFAULT_BROUTER_SERVER
+            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_URI
+            setSingleLine()
+            setText(AppSettings.brouterServer(this@MainActivity).takeIf { it != AppSettings.DEFAULT_BROUTER_SERVER } ?: "")
+        }
+        val settings = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, pad * 2, 0, 0)
+            addView(TextView(this@MainActivity).apply {
+                text = getString(R.string.settings_title)
+                textSize = 18f
+            })
+            addView(TextView(this@MainActivity).apply {
+                text = getString(R.string.brouter_server_label)
+                setPadding(0, pad / 2, 0, 0)
+            })
+            addView(brouterInput)
+            addView(Button(this@MainActivity).apply {
+                text = getString(R.string.save)
+                setOnClickListener {
+                    val stored = AppSettings.setBrouterServer(this@MainActivity, brouterInput.text.toString())
+                    brouterInput.setText(stored.takeIf { it != AppSettings.DEFAULT_BROUTER_SERVER } ?: "")
+                    android.widget.Toast.makeText(this@MainActivity, getString(R.string.brouter_saved, stored), android.widget.Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
 
         setContentView(ScrollView(this).apply {
             addView(LinearLayout(this@MainActivity).apply {
                 orientation = LinearLayout.VERTICAL
                 setPadding(pad, pad, pad, pad)
+                addView(updateBox)
                 addView(server)
                 addView(toggle)
                 addView(listTitle)
                 addView(list)
                 addView(clearAll)
                 addView(unrecognizedBox)
+                addView(settings)
                 addView(help)
             })
         })
@@ -115,6 +167,16 @@ class MainActivity : Activity() {
         super.onResume()
         if (PointServerService.expired()) PointServerService.stop(this) // alarm came late
         refresh()
+        showUpdate(UpdateChecker.cachedUpdate(this))
+        Thread {
+            val update = UpdateChecker.check(applicationContext)
+            runOnUiThread { showUpdate(update) }
+        }.start()
+    }
+
+    private fun showUpdate(version: String?) {
+        updateBox.visibility = if (version != null) View.VISIBLE else View.GONE
+        if (version != null) updateText.text = getString(R.string.update_available, version, UpdateChecker.currentVersion(this))
     }
 
     private fun afterListChange() {

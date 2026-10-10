@@ -52,5 +52,11 @@
     <string name="surface_cycleway">Cycle lane %1$d%%</string>
     <string name="view">View</string>
     <string name="share_gpx">Share GPX</string>
+    <string name="update_available">New version %1$s available (you have %2$s).</string>
+    <string name="update_download">Download from GitHub</string>
+    <string name="settings_title">Settings</string>
+    <string name="brouter_server_label">BRouter server for routes (empty = public brouter.de)</string>
+    <string name="save">Save</string>
+    <string name="brouter_saved">Routes will use %1$s</string>
     <string name="help">How to use: in Google Maps (or OsmAnd, Organic Maps, Apple Maps, WhatsApp locations…) open a place, drop a pin or get directions, tap Share and choose \"Send to Karoo\". Directions can send their stops, in order, or compute bike route alternatives to choose from (as GPX files). Connect the Karoo to this phone\'s hotspot and use \"Fetch point from phone\" on the Karoo.</string>
 </resources>

@@ -9,7 +9,7 @@ import java.util.UUID
 /**
  * Registers the "Fetch point from phone" bonus action (in-ride menu / assignable buttons).
  */
-class BridgeExtension : KarooExtension(EXTENSION_ID, "1.0.0") {
+class BridgeExtension : KarooExtension(EXTENSION_ID, "1.1.0") {
 
     private lateinit var karooSystem: KarooSystemService
 

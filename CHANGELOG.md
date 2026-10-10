@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0 (2026-10-10)
+
+- Both apps check GitHub for a newer release (at most once a day) and show a notice; the phone
+  app links to the download.
+- Phone app settings: custom BRouter server for route alternatives (default: public brouter.de).
+
 ## 1.0.0 (2026-10-10)
 
 First public release. Both apps tested on a Karoo 2 (Karoo OS 1.613) and an Android phone.

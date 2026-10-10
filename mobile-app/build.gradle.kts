@@ -11,8 +11,8 @@ android {
         applicationId = "com.carlolius.karoomapsbridge.mobile"
         minSdk = 26
         targetSdk = 34
-        versionCode = 11
-        versionName = "1.0.0"
+        versionCode = 12
+        versionName = "1.1.0"
     }
 
     // Release signing comes from the environment (see build.sh --release); never from the repo.

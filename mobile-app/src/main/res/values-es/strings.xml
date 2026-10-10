@@ -51,5 +51,11 @@
     <string name="surface_cycleway">Carril bici %1$d %%</string>
     <string name="view">Ver</string>
     <string name="share_gpx">Compartir GPX</string>
+    <string name="update_available">Nueva versión %1$s disponible (tienes la %2$s).</string>
+    <string name="update_download">Descargar de GitHub</string>
+    <string name="settings_title">Ajustes</string>
+    <string name="brouter_server_label">Servidor de BRouter para las rutas (vacío = el público brouter.de)</string>
+    <string name="save">Guardar</string>
+    <string name="brouter_saved">Las rutas usarán %1$s</string>
     <string name="help">Uso: en Google Maps (o OsmAnd, Organic Maps, Apple Maps, ubicaciones de WhatsApp…) abre un sitio, suelta un pin o pide indicaciones, pulsa Compartir y elige \"Enviar al Karoo\". Con unas indicaciones puedes enviar sus paradas, en orden, o calcular alternativas de ruta en bici para elegir (como archivos GPX). Conecta el Karoo al hotspot de este móvil y usa \"Traer punto del móvil\" en el Karoo.</string>
 </resources>

@@ -76,8 +76,11 @@ contacts:
 - Google, to resolve shared `maps.app.goo.gl` short links, and through Android's built-in
   geocoder to find the coordinates of an address.
 - OpenStreetMap's Nominatim, only if Android's geocoder finds nothing.
-- The public BRouter server (brouter.de), with the route's start and stops, when you compute a
-  route; OpenStreetMap's tile server for the route map.
+- The BRouter server, with the route's start and stops, when you compute a route: the public
+  brouter.de unless you set your own in the phone app's settings (e.g. a self-hosted
+  [BRouter](https://github.com/abrensch/brouter)). OpenStreetMap's tile server for the route map.
+- GitHub's API, at most once a day per app, to see whether there is a newer release
+  (sideloaded apps don't update themselves; both apps show a notice when there is one).
 
 Location permission is only used to start a computed route where you are, when the Google Maps
 directions started at "Your location". Points stay on the phone (last 20) until you delete them.

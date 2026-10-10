@@ -12,6 +12,7 @@
     <string name="manual_host_label">Dirección del móvil (vacío = automático)</string>
     <string name="manual_host_hint">p. ej. 192.168.1.50</string>
     <string name="save">Guardar</string>
+    <string name="update_available">Nueva versión %1$s disponible (tienes la %2$s): github.com/Carlolius/karoo-maps-bridge</string>
     <string name="choose_point">%1$d puntos en el móvil. Elige uno:</string>
     <string name="one_point">Punto en el móvil:</string>
     <string name="phone_known">Recordados: %1$s</string>

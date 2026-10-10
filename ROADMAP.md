@@ -17,5 +17,4 @@
 
 ## Ideas
 
-- Optional custom BRouter server (self-hosted) in settings.
 - Test on the current Karoo.

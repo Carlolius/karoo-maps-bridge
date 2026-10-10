@@ -174,12 +174,13 @@ class RoutesActivity : Activity() {
         stops.dropLast(1).forEach { js(String.format(Locale.ROOT, "addStop(%.6f,%.6f)", it.lat, it.lng)) }
         val total = BRouter.Profile.entries.size * BRouter.MAX_ALTERNATIVES
         status.text = getString(R.string.computing, 0, total)
+        val server = AppSettings.brouterServer(this)
         worker.execute {
             var done = 0
             val accepted = mutableListOf<BRouter.Route>() // worker-side copy for the duplicate check
             for (profile in BRouter.Profile.entries) {
                 for (alt in 0 until BRouter.MAX_ALTERNATIVES) {
-                    val route = runCatching { BRouter.fetch(points, profile, alt) }
+                    val route = runCatching { BRouter.fetch(points, profile, alt, server) }
                         .onFailure { Log.w(TAG, "BRouter ${profile.id}/$alt failed", it) }.getOrNull()
                         ?.takeIf { r -> accepted.none { BRouter.nearDuplicate(it, r) } }
                     route?.let { accepted += it }
