@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Maps Bridge</string>
+    <string name="action_fetch">Fetch point from phone</string>
+    <string name="fetching">Asking the phone…</string>
+    <string name="no_point">The phone has no points waiting</string>
+    <string name="phone_unreachable">Phone not reachable</string>
+    <string name="karoo_not_connected">Point received, but Karoo system not connected yet. Try again.</string>
+    <string name="point_sent">Opened on the map: %1$s (%2$s)</string>
+    <string name="phone_auto">Gateway: %1$s (auto)</string>
+    <string name="phone_manual">Manual: %1$s</string>
+    <string name="no_network">No network. Connect the Karoo to the phone\'s hotspot.</string>
+    <string name="manual_host_label">Phone address (leave empty for automatic)</string>
+    <string name="manual_host_hint">e.g. 192.168.1.50</string>
+    <string name="save">Save</string>
+    <string name="choose_point">%1$d points on the phone. Choose one:</string>
+    <string name="one_point">Point on the phone:</string>
+    <string name="phone_known">Remembered: %1$s</string>
+    <string name="tried">Tried: %1$s</string>
+    <string name="forget_known">Forget remembered phones</string>
+</resources>

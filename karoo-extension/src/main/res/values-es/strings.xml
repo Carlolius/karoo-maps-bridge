@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_fetch">Traer punto del móvil</string>
+    <string name="fetching">Preguntando al móvil…</string>
+    <string name="no_point">El móvil no tiene puntos pendientes</string>
+    <string name="phone_unreachable">No se puede contactar con el móvil</string>
+    <string name="karoo_not_connected">Punto recibido, pero el sistema del Karoo aún no está conectado. Prueba otra vez.</string>
+    <string name="point_sent">Abierto en el mapa: %1$s (%2$s)</string>
+    <string name="phone_auto">Puerta de enlace: %1$s (auto)</string>
+    <string name="phone_manual">Manual: %1$s</string>
+    <string name="no_network">Sin red. Conecta el Karoo al hotspot del móvil.</string>
+    <string name="manual_host_label">Dirección del móvil (vacío = automático)</string>
+    <string name="manual_host_hint">p. ej. 192.168.1.50</string>
+    <string name="save">Guardar</string>
+    <string name="choose_point">%1$d puntos en el móvil. Elige uno:</string>
+    <string name="one_point">Punto en el móvil:</string>
+    <string name="phone_known">Recordados: %1$s</string>
+    <string name="tried">Probado: %1$s</string>
+    <string name="forget_known">Olvidar móviles recordados</string>
+</resources>

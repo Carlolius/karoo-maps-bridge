@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="leaflet/leaflet.css">
+<style>html, body, #map { margin: 0; height: 100%; }</style>
+</head>
+<body>
+<div id="map"></div>
+<script src="leaflet/leaflet.js"></script>
+<script>
+  // Route alternatives drawn by RoutesActivity: addRoute() as they arrive, select() to highlight,
+  // setVisible() to show/hide one.
+  var map = L.map('map');
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  }).addTo(map);
+  map.setView([41.4, 2.2], 11);
+
+  var routes = {}, bounds = null, selected = null, endsDrawn = false;
+
+  function addRoute(id, color, coords) {
+    var line = L.polyline(coords, { color: color, weight: 5, opacity: 0.8 }).addTo(map);
+    line.on('click', function () {
+      select(id);
+      if (window.Bridge) Bridge.select(id);
+    });
+    routes[id] = line;
+    var b = line.getBounds();
+    bounds = bounds ? bounds.extend(b) : L.latLngBounds(b.getSouthWest(), b.getNorthEast());
+    map.fitBounds(bounds, { padding: [24, 24] });
+    if (!endsDrawn) {
+      endsDrawn = true;
+      L.circleMarker(coords[0], { radius: 8, color: '#000', weight: 2, fillColor: '#2e7d32', fillOpacity: 1 }).addTo(map);
+      L.circleMarker(coords[coords.length - 1], { radius: 8, color: '#000', weight: 2, fillColor: '#c62828', fillOpacity: 1 }).addTo(map);
+    }
+    if (selected !== null) select(selected);
+  }
+
+  function addStop(lat, lng) {
+    L.circleMarker([lat, lng], { radius: 6, color: '#000', weight: 2, fillColor: '#ffb300', fillOpacity: 1 }).addTo(map);
+  }
+
+  function setVisible(id, visible) {
+    var line = routes[id];
+    if (!line) return;
+    if (visible) { if (!map.hasLayer(line)) line.addTo(map); }
+    else map.removeLayer(line);
+  }
+
+  function select(id) {
+    selected = id;
+    for (var k in routes) {
+      if (k == id) {
+        routes[k].setStyle({ weight: 8, opacity: 1 });
+        routes[k].bringToFront();
+      } else {
+        routes[k].setStyle({ weight: 5, opacity: 0.55 });
+      }
+    }
+  }
+</script>
+</body>
+</html>
